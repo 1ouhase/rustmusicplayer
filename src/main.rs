@@ -1,6 +1,4 @@
-use std::{io};
-
-use rustmediaplayer::{MusicPlayer, error_helper, console_clear};
+use rustmediaplayer::{MusicPlayer, console_clear, error_helper};
 
 fn main() {
     let mut music_player: MusicPlayer = MusicPlayer::new().expect("falied to create music player");
@@ -13,8 +11,7 @@ fn main() {
 
         let song_list = match music_player.song_list() {
             Err(err) => {
-                error_helper(format!("{err}"));
-                std::thread::sleep(std::time::Duration::from_millis(1000));
+                error_helper(format!("an error accured when getting the song list: {err}"));
                 continue;
             }
             Ok(list) => list,
@@ -39,9 +36,10 @@ fn main() {
         println!("p) to pause song");
         println!("r) to resume playing song");
         println!("q) to exit app");
+        println!("i) WARN: pressing i turns off internet :) (experimental)");
 
         let mut input = String::new();
-        match io::stdin().read_line(&mut input) {
+        match std::io::stdin().read_line(&mut input) {
             Err(err) => {
                 error_helper(format!("{err}"));
             }
@@ -57,6 +55,10 @@ fn main() {
                     },
                     "q" => {
                         break;
+                    }
+                    "i" => {
+                        music_player.simulate_network(false);
+                        continue;
                     }
                     _ => {}
                 }

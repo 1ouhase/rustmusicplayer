@@ -74,7 +74,7 @@ impl MusicPlayer {
             _stream: stream,
         })
     }
-    fn check_connection(&self) -> Result<(), AppError> {
+    pub fn check_connection(&self) -> Result<(), AppError> {
         let connected = self.network.lock().unwrap();
         if *connected {
             Ok(())
