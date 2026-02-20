@@ -1,6 +1,5 @@
 use rodio::{Decoder, Sink};
 use std::fs::{self, File};
-use std::io::{self, Read};
 use std::path::PathBuf;
 use std::result::Result;
 use std::sync::{Arc, Mutex};
@@ -30,7 +29,7 @@ pub fn console_clear() -> Result<(), AppError> {
 
 pub fn error_helper(err: String) {
     println!("{err}\npress enter to continue");
-    if let Err(err) = io::stdin().read_line(&mut String::new()) {
+    if let Err(err) = std::io::stdin().read_line(&mut String::new()) {
         println!("{err}");
     }
 }
